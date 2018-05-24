@@ -12,7 +12,7 @@ setup(
     version='0.0.1',
     packages=find_packages(),
     include_package_data=True,
-    license='BSD License',  # example license
+    license='GNU License',  # example license
     description='Simple file management for generic files',
     long_description=README,
     url='https://www.example.com/',
