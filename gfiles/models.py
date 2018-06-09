@@ -12,7 +12,7 @@ from filer.fields.file import FilerFileField
 
 def data_file_store(instance, filename):
     now = datetime.now()
-    return os.path.join('data', 'files', now.strftime("%Y_%m_%d"), filename)
+    return os.path.join('data', 'files', now.strftime("%Y_%m_%d_%H%M%S"), filename)
 
 
 
