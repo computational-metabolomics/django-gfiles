@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from datetime import datetime
 import os
-from filer.fields.file import FilerFileField
+# from filer.fields.file import FilerFileField
 
 
 def data_file_store(instance, filename):

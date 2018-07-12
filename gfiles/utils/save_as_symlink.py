@@ -10,7 +10,6 @@ def save_as_symlink(abs_pth, name, file_data_obj):
     file_data_obj.data_file.save(name, File(open(tf.name)))
 
     fpth = os.path.join(settings.MEDIA_ROOT, file_data_obj.data_file.name)
-    print 'file path', fpth
     os.remove(fpth)
     os.symlink(abs_pth, fpth)
     file_data_obj.save()
