@@ -25,11 +25,16 @@ from django.urls import reverse_lazy
 
 
 class GFileCreateView(LoginRequiredMixin, CreateView):
+    """ Class to create a save a generic file using the GenericFile model.
+
+    Inherits the CreateView class and uses the LoginRequiredMixin and
+    """
+
+
+
     model = GenericFile
     success_msg = "File uploaded"
     success_url = reverse_lazy('success')
-    # fields = '__all__'
-    # fields = ['run', 'data_file']
     form_class = GFileForm
     template_name = 'gfiles/gfile_form.html'
 

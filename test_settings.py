@@ -2,7 +2,7 @@ import os
 SECRET_KEY = 'fake-key'
 INSTALLED_APPS = [
     'gfiles',
-    
+
     'django_tables2',
     'bootstrap3',
     'django_tables2_column_shifter',

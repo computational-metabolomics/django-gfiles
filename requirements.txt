@@ -3,8 +3,8 @@ celery
 django_celery_results
 six
 future
-django_filters
-django-tables2
+django-filters
+django_tables2
 django_nvd3
 django_bootstrap3
 django-autocomplete-light
