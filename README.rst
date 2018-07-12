@@ -2,18 +2,23 @@
 gfiles
 =====
 
-Simple file management of generic files
+Simple file management of generic files.
 
 Detailed documentation is in the "docs" directory (todo)
 
 Quick start
 -----------
 
-1. Add "gfiles" to your INSTALLED_APPS setting like this::
+1. Add "gfiles" and django application dependencies to your INSTALLED_APPS setting like this::
 
     INSTALLED_APPS = [
         ...
         'gfiles',
+
+        'django_tables2',
+        'bootstrap3',
+        'django_tables2_column_shifter',
+        'django_sb_admin',
     ]
 
 2. Include the polls URLconf in your project urls.py like this::

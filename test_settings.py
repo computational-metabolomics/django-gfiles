@@ -2,8 +2,11 @@ import os
 SECRET_KEY = 'fake-key'
 INSTALLED_APPS = [
     'gfiles',
+    'django_tables2',
+    'bootstrap3',
+    'django_tables2_column_shifter',
+    'django_sb_admin',
 
-    'easy_thumbnails',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -27,12 +30,16 @@ MIDDLEWARE_CLASSES = [
 
 ]
 
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'test-django-gfiles',
     }
 }
+
+
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -52,4 +59,23 @@ ROOT_URLCONF = 'test_site_urls'
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = '/login/'
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [(os.path.join(BASE_DIR, 'gfiles', 'templates')),
+                 (os.path.join(BASE_DIR, 'gfiles', 'templates'))
+                 ],
+
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages'
+            ],
+        },
+    },
+]

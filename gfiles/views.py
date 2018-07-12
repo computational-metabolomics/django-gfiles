@@ -11,6 +11,7 @@ from celery.result import AsyncResult
 
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin, MultiTableMixin
+from django_tables2.export.views import ExportMixin
 
 from gfiles.models import GenericFile
 from gfiles.forms import GFileForm
@@ -20,11 +21,13 @@ from gfiles.filter import GFileFilter
 from gfiles.tables import GFileTableWithCheck
 
 from django_tables2.export.views import ExportMixin
+from django.urls import reverse_lazy
+
 
 class GFileCreateView(LoginRequiredMixin, CreateView):
     model = GenericFile
-    success_msg = "Experimental metabolomics file uploaded"
-    success_url = '/misa/success'
+    success_msg = "File uploaded"
+    success_url = reverse_lazy('success')
     # fields = '__all__'
     # fields = ['run', 'data_file']
     form_class = GFileForm
@@ -43,7 +46,7 @@ class GFileCreateView(LoginRequiredMixin, CreateView):
         return super(GFileCreateView, self).form_valid(form)
 
 
-class GFileListView(SingleTableMixin, FilterView):
+class GFileListView(ExportMixin, SingleTableMixin, FilterView):
     table_class = GFileTableWithCheck
     model = GenericFile
     template_name = 'gfiles/gfile_summary.html'
@@ -68,3 +71,11 @@ def status_update(request):
         progress = 0
 
     return JsonResponse({'s': status, 'progress':progress, 'info':str(result.info)})
+
+
+def index(request):
+    return render(request, 'gfiles/index.html')
+
+
+def success(request):
+    return render(request, 'gfiles/success.html')
