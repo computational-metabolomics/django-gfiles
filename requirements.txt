@@ -1,0 +1,13 @@
+django==1.11
+celery
+django_celery_results
+six
+future
+django_filters
+django-tables2
+django_nvd3
+django_bootstrap3
+django-autocomplete-light
+django_tables2_column_shifter
+django_sb_admin
+tablib

@@ -11,6 +11,7 @@ setup(
     name='django-gfiles',
     version='0.0.1',
     packages=find_packages(),
+    install_requires=open('requirements.txt').read().splitlines(),
     include_package_data=True,
     license='GNU License',  # example license
     description='Simple file management for generic files',
@@ -27,7 +28,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.6',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],

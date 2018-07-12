@@ -6,6 +6,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'django_tables2_column_shifter',
     'django_sb_admin',
+    'django_filters',
 
     'django.contrib.admin',
     'django.contrib.auth',
