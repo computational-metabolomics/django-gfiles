@@ -41,4 +41,4 @@ Quick start
 
 
 .. |Build Status (Travis)| image:: https://img.shields.io/travis/computational-metabolomics/django-gfiles.svg?style=flat&maxAge=3600&label=Travis-CI
-   :target: https://travis-ci.org/computational-metabolomics/django-gfiles
+   :target: https://travis-ci.com/computational-metabolomics/django-gfiles/
