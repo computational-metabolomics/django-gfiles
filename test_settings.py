@@ -3,11 +3,12 @@ SECRET_KEY = 'fake-key'
 INSTALLED_APPS = [
     'gfiles',
 
+    'django_filters',
     'django_tables2',
     'bootstrap3',
     'django_tables2_column_shifter',
     'django_sb_admin',
-    'django_filters',
+
 
     'django.contrib.admin',
     'django.contrib.auth',
