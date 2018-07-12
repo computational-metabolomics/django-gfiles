@@ -27,6 +27,10 @@ Quick start
 
 3. Run `python manage.py migrate` to create the polls models.
 
-4. Start the development server and visit http://127.0.0.1:8000/admin/
-   to add files. Or add as user http://127.0.0.1:8000/upload_gfile/ and
-    view files as user http://127.0.0.1:8000/gfile_summary/
+4. Start the development server and visit http://127.0.0.1:8000
+
+5. Register http://127.0.0.1:8000/register/ and login http://127.0.0.1:8000/login/
+
+6. Add files (need to be logged in) http://127.0.0.1:8000/upload_gfile/
+
+7. View and filter files http://127.0.0.1:8000/gfile_summary/
