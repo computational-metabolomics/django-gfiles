@@ -67,7 +67,7 @@ class GFileCreateViewTestCase(TestCase):
         request.user = AnonymousUser()
         request = add_middleware_to_request(request, SessionMiddleware)
         response = GFileCreateView.as_view()(request)
-        print(response)
+        # print(response)
 
         # client acts as a fake website for the request
         response.client = Client()
@@ -118,7 +118,7 @@ class GFileListViewTestCase(TestCase):
         request.user = AnonymousUser()
         request = add_middleware_to_request(request, SessionMiddleware)
         response = GFileListView.as_view()(request)
-        print(response)
+        # print(response)
 
         # client acts as a fake website for the request
         response.client = Client()
@@ -135,7 +135,7 @@ class GFileListViewTestCase(TestCase):
         request.user = AnonymousUser()
         request = add_middleware_to_request(request, SessionMiddleware)
         response = GFileListView.as_view()(request)
-        print(response)
+        # print(response)
 
         # client acts as a fake website for the request
         response.client = Client()
