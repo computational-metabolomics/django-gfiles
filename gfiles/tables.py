@@ -4,7 +4,7 @@ from django_tables2_column_shifter.tables import ColumnShiftTable
 
 
 class GFileTable(ColumnShiftTable):
-    """ Class for django-tables2 table of GenericFiles.
+    """ Class for django-tables2 table of :class:`gfiles.models.GenericFiles`.
 
     Inherits the ColumnShiftTable, that is a modified django-tables2 class that allows columns to be dynamically
     selected
@@ -20,9 +20,9 @@ class GFileTable(ColumnShiftTable):
 
 
 class GFileTableWithCheck(GFileTable):
-    """ Class for django-tables2 table of GenericFiles with a check box column
+    """ Class for django-tables2 table of :class:`gfiles.models.GenericFiles` with a check box column
 
-    Same as the GFileTable but with a check box
+    Inherits :class:`gfiles.models.GFileTable` and just adds checkbox.
     """
     check = tables.CheckBoxColumn(accessor="pk",
                                            attrs={

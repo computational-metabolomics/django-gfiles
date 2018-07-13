@@ -60,6 +60,9 @@ class GFileListView(ExportMixin, SingleTableMixin, FilterView):
 
 
 def status_update(request):
+    """ Updates for tracking status of long processes via celery
+    """
+
     id = request.session['result']
 
     result = AsyncResult(id)
@@ -79,8 +82,12 @@ def status_update(request):
 
 
 def index(request):
+    """ basic index view
+    """
     return render(request, 'gfiles/index.html')
 
 
 def success(request):
+    """ basic success view
+    """
     return render(request, 'gfiles/success.html')

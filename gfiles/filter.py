@@ -9,7 +9,6 @@ class GFileFilter(django_filters.FilterSet):
     can be different to the name of the file that is stored if multiple files of the same name are uploaded at the same
     time)
     """
-
     username = django_filters.CharFilter('user__username', lookup_expr='contains', label="Username")
     original_filename = django_filters.CharFilter('original_filename', lookup_expr='contains', label="Filename")
 
