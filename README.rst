@@ -8,6 +8,7 @@ Simple file management of generic files.
 
 Detailed documentation is in the "docs" directory (todo)
 
+
 Quick start
 -----------
 
