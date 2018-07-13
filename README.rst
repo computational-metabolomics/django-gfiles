@@ -1,6 +1,8 @@
 =====
-gfiles
+django-gfiles
 =====
+
+|Build Status (Travis)|
 
 Simple file management of generic files.
 
@@ -35,3 +37,8 @@ Quick start
 6. Add files (need to be logged in) http://127.0.0.1:8000/upload_gfile/
 
 7. View and filter files http://127.0.0.1:8000/gfile_summary/
+
+
+
+.. |Build Status (Travis)| image:: https://travis-ci.com/computational-metabolomics/django-gfiles.svg?branch=master
+   :target: https://travis-ci.com/computational-metabolomics/django-gfiles/
