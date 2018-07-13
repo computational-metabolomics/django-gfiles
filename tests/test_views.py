@@ -145,7 +145,7 @@ class GFileListViewTestCase(TestCase):
 
 
         self.assertContains(response, '<div class="table-container">')
-        # self.assertContains(response, '<div id="GFileTableWithCheck" class="column-shifter-container">')
+        self.assertContains(response, '<div id="GFileTableWithCheck" class="column-shifter-container">')
         self.assertContains(response, '<table  class="paleblue">')
         self.assertContains(response, '<td class="filename">test_data_file.tsv</td>')
 

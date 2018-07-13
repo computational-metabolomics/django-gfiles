@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.views.generic import CreateView
+from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 import os
@@ -11,7 +12,6 @@ from celery.result import AsyncResult
 
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin, MultiTableMixin
-from django_tables2.export.views import ExportMixin
 
 from gfiles.models import GenericFile
 from gfiles.forms import GFileForm
