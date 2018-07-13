@@ -14,7 +14,7 @@ class GFileTable(ColumnShiftTable):
     class Meta:
         model = GenericFile
         attrs = {'class': 'paleblue'}
-        template = 'django_tables2/bootsrap.html'
+        template = 'django_tables2/boostrap.html'
 
         fields = ('id', )
 
