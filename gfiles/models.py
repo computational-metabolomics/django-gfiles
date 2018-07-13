@@ -12,6 +12,9 @@ def data_file_store(instance, filename):
 
 
 class GenericFile(models.Model):
+    """ Model for managing generic files. Files can either be saved as symlink or copied to the data file store
+    based on what has been set in the settings file MEDIA_ROOT parameter
+    """
     data_file = models.FileField(upload_to=data_file_store, blank=False, null=False, max_length=500)
     original_filename = models.CharField(max_length=500, null=False, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

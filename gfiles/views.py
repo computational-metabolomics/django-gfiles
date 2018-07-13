@@ -27,11 +27,8 @@ from django.urls import reverse_lazy
 class GFileCreateView(LoginRequiredMixin, CreateView):
     """ Class to create a save a generic file using the GenericFile model.
 
-    Inherits the CreateView class and uses the LoginRequiredMixin and
+    Inherits the CreateView class and uses the LoginRequiredMixin
     """
-
-
-
     model = GenericFile
     success_msg = "File uploaded"
     success_url = reverse_lazy('success')
@@ -47,15 +44,18 @@ class GFileCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         messages.info(self.request, self.success_msg)
         form = self.update_form(form)
-
         return super(GFileCreateView, self).form_valid(form)
 
 
 class GFileListView(ExportMixin, SingleTableMixin, FilterView):
+    """ Class to view a table and filter all of the currently saved GenericFiles
+
+    Inherits the FilterView class and uses the SingleTableMixin for viewing the django-tables2 table and
+    uses the ExportMixin so that the table can be exported as a csv file
+    """
     table_class = GFileTableWithCheck
     model = GenericFile
     template_name = 'gfiles/gfile_summary.html'
-
     filterset_class = GFileFilter
 
 
