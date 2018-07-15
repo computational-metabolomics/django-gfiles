@@ -7,6 +7,11 @@ env:
 install:
 - pip install .
 script: python runtests.py
+
+branches:
+  only:
+    - master
+
 deploy:
   provider: pypi
   on:
