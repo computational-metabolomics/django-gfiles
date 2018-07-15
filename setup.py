@@ -13,7 +13,7 @@ setup(
     packages=find_packages(),
     install_requires=open('requirements.txt').read().splitlines(),
     include_package_data=True,
-    license='GNU License',  # example license
+    license="GPLv3",
     description='Simple file management for generic files',
     long_description=README,
     url='https://www.example.com/',
@@ -24,7 +24,7 @@ setup(
         'Framework :: Django',
         'Framework :: Django :: 1.11',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU License',  # example license
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
