@@ -2,11 +2,12 @@
 django-gfiles
 =====
 
-|Build Status (Travis)|
+|Build Status (Travis)| |Py versions|
+
 
 Simple file management of generic files.
 
-Detailed documentation is in the "docs" directory (todo)
+Further documentation available on `ReadTheDocs <https://mogi.readthedocs.io/en/latest/>`__
 
 
 
@@ -45,3 +46,6 @@ Quick start
 
 .. |Build Status (Travis)| image:: https://travis-ci.com/computational-metabolomics/django-gfiles.svg?branch=master
    :target: https://travis-ci.com/computational-metabolomics/django-gfiles/
+
+.. |Py versions| image:: https://img.shields.io/pypi/pyversions/django-gfiles.svg?style=flat&maxAge=3600
+   :target: https://pypi.python.org/pypi/django-gfiles/

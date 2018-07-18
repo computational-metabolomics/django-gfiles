@@ -19,7 +19,7 @@ setup(
     license="GPLv3",
     description='Simple file management for generic files',
     long_description=README,
-    url='https://www.example.com/',
+    url='https://mogi.readthedocs.io',
     author='Thomas N lawson',
     author_email='thomas.nigel.lawson@gmail.com',
     classifiers=[
