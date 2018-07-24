@@ -5,4 +5,3 @@ recursive-include gfiles/static *
 recursive-include gfiles/templates *
 recursive-include gfiles/tests/data *
 recursive-include gfiles/tests *
-recursive-include docs *
