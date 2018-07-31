@@ -62,23 +62,79 @@ class GFileListView(ExportMixin, SingleTableMixin, FilterView):
 def status_update(request):
     """ Updates for tracking status of long processes via celery
     """
-
+    # https://blog.miguelgrinberg.com/post/using-celery-with-flask
     id = request.session['result']
 
-    result = AsyncResult(id)
+    task = AsyncResult(id)
+    print(task)
 
-    status = result.status
+    # Task has finished and information has been remove (i think)
+    try:
+        print(task.state)
+    except KeyError as e:
+        print(e)
+        print(task.info)
+        response = {
+            'state': 'REMOVED',
+            'current': 0,
+            'total': 0,
+            'status': '',
+        }
+        return JsonResponse(response)
 
-    if status == 'FAILURE':
-        progress = 0
-    elif status == 'SUCCESS':
-        progress = 100
-    elif result.info:
-        progress = (float(result.info['current'])/float(result.info['total']))*100.0
+
+    if task.state == 'PENDING':
+        print('pending')
+        # job did not start yet
+        response = {
+            'state': task.state,
+            'current': 0,
+            'total': 1,
+            'status': 'Pending...'
+        }
+    elif task.state != 'FAILURE':
+        print('processing')
+        response = {
+            'state': task.state,
+            'current': task.info.get('current', 0),
+            'total': task.info.get('total', 1),
+            # 'status': task.info.get('status', '')
+            'status': 'processing'
+        }
+        if 'result' in task.info:
+            response['result'] = task.info['result']
     else:
-        progress = 0
+        # something went wrong in the background job
+        response = {
+            'state': task.state,
+            'current': 0,
+            'total': 0,
+            'status': 'FAILURE (unknown)',
+        }
+    if task.info:
+        response['progress'] = (float(response['current']) / float(response['total'])) * 100.0
+    else:
+        response['progress'] = 0
 
-    return JsonResponse({'s': status, 'progress':progress, 'info':str(result.info)})
+    return JsonResponse(response)
+
+    #
+    # status = result.status
+    # status = result.state
+    #
+    # if status == 'FAILURE':
+    #     progress = 0
+    # elif status == 'SUCCESS':
+    #     progress = 100
+    # elif result.info:
+    #     progress = (float(result.info['current'])/float(result.info['total']))*100.0
+    # else:
+    #     progress = 0
+    #
+    # if 'extra_text' in result.keys():
+    #     extra_text = result['extra_text']
+    #
+    # return ({'status': status, 'progress':progress, 'info': str(result.info), 'state': result.state })
 
 
 def index(request):

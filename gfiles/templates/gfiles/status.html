@@ -10,6 +10,11 @@
 
     function update() {
         $.getJSON(url, function(data){
+
+            if (data.state == 'REMOVED'){
+                // task remove no more information to use
+                return(0)
+            }
             // Enumerate JSON
             perc = Math.round(data.progress);
             var text_for_div = perc+"%";
@@ -19,16 +24,14 @@
             document.getElementById("pbar").setAttribute("style", style_width );
             document.getElementById("pbar").setAttribute("aria-valuenow", perc);
 
-            document.getElementById("s").innerHTML = data.s;
-            if (data.s === 'FAILURE'){
+            document.getElementById("state").innerHTML = data.state;
+            // document.getElementById("status").innerHTML = data.status;
+            if (data.state === 'FAILURE'){
                 document.getElementById("failure").innerHTML = '<i class="fa fa-fw fa-exclamation-triangle"  style="color:red"></i>';
-                document.getElementById("info").innerHTML = data.info
-
             }
 
-
             if (data.progress < 100){
-                setTimeout('update()', 5000)
+                setTimeout('update()', 1000)
             } else {
                 alert('Finished!')
             }
@@ -71,9 +74,9 @@
                     <h3 class="panel-title">Progress information</h3>
                 </div>
                 <div class="panel-body">
-                    <div id="s"></div>
+                    <div id="state"></div>
+                    <div id="status"></div>
                     <div class="huge" id="failure"></div>
-                    <div id="info"></div>
                 </div>
             </div>
         </div>
