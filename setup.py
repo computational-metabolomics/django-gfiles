@@ -12,7 +12,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-gfiles',
-    version='0.0.2',
+    version='0.0.1',
     packages=find_packages(),
     install_requires=open('requirements.txt').read().splitlines(),
     include_package_data=True,
