@@ -1,7 +1,7 @@
 import django_tables2 as tables
-from .models import GenericFile
+from .models import GenericFile, TrackTasks
 from django_tables2_column_shifter.tables import ColumnShiftTable
-
+from django_tables2.utils import A
 
 class GFileTable(ColumnShiftTable):
     """ Class for django-tables2 table of :class:`gfiles.models.GenericFiles`.
@@ -37,6 +37,13 @@ class GFileTableWithCheck(GFileTable):
         fields = ('id', 'filename', 'user', 'check')
 
 
+class TrackTasksTable(ColumnShiftTable):
+    progress = tables.LinkColumn('track_task_progress', text='progress', verbose_name='Monitor Progress', args=[A('pk')])
+    class Meta:
+        model = TrackTasks
+        template = 'django_tables2/bootstrap.html'
+        attrs = {'class': 'paleblue'}
+        fields = ('id', 'user', 'taskid', 'status')
 
 
 

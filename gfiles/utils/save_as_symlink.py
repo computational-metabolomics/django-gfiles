@@ -17,12 +17,12 @@ def save_as_symlink(abs_pth, name, generic_file_obj):
     tf = tempfile.NamedTemporaryFile(delete=False)
 
     # first create link to empty file
-    file_data_obj.data_file.save(name, File(open(tf.name)))
+    generic_file_obj.data_file.save(name, File(open(tf.name)))
 
     fpth = os.path.join(settings.MEDIA_ROOT, generic_file_obj.data_file.name)
     os.remove(fpth)
     os.symlink(abs_pth, fpth)
-    file_data_obj.save()
+    generic_file_obj.save()
     tf.close()
 
     return generic_file_obj

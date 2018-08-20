@@ -33,5 +33,8 @@ urlpatterns = [
     url(r'^gfile_summary/$', views.GFileListView.as_view(), name='gfile_summary'),
     url(r'^update/$', views.status_update, name='status_update'),
     url(r'^success/$', views.success, name='success'),
+    url(r'^track_tasks/$', views.TrackTasksListView.as_view(), name='track_tasks'),
+    url(r'^track_task_progress/(?P<pk>\d+)/$', views.TrackTasksProgressView.as_view(), name='track_task_progress'),
+
 ]
 

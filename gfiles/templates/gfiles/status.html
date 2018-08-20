@@ -25,12 +25,11 @@
             document.getElementById("pbar").setAttribute("aria-valuenow", perc);
 
             document.getElementById("state").innerHTML = data.state;
-            // document.getElementById("status").innerHTML = data.status;
-            if (data.state === 'FAILURE'){
+            document.getElementById("status").innerHTML = data.status;
+            if (data.state === 'FAILURE' || data.state === 'FAILURE-KNOWN'){
                 document.getElementById("failure").innerHTML = '<i class="fa fa-fw fa-exclamation-triangle"  style="color:red"></i>';
-            }
-
-            if (data.progress < 100){
+                alert('Error!')
+            }else if (data.progress < 100){
                 setTimeout('update()', 1000)
             } else {
                 alert('Finished!')

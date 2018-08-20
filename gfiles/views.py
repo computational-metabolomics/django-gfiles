@@ -5,7 +5,7 @@ from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 import os
-
+import copy
 
 from django.http import JsonResponse
 from celery.result import AsyncResult
@@ -13,12 +13,13 @@ from celery.result import AsyncResult
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin, MultiTableMixin
 
-from gfiles.models import GenericFile
+from gfiles.models import GenericFile, TrackTasks
 from gfiles.forms import GFileForm
 from django.shortcuts import render
+from django.views.generic import View
 
-from gfiles.filter import GFileFilter
-from gfiles.tables import GFileTableWithCheck
+from gfiles.filter import GFileFilter, TrackTasksFilter
+from gfiles.tables import GFileTableWithCheck, TrackTasksTable
 
 from django_tables2.export.views import ExportMixin
 from django.urls import reverse_lazy
@@ -59,14 +60,34 @@ class GFileListView(ExportMixin, SingleTableMixin, FilterView):
     filterset_class = GFileFilter
 
 
-def status_update(request):
-    """ Updates for tracking status of long processes via celery
-    """
-    # https://blog.miguelgrinberg.com/post/using-celery-with-flask
-    id = request.session['result']
+class TrackTasksListView(LoginRequiredMixin, SingleTableMixin, FilterView):
+    """ Class to view a table and filter all of the currently saved GenericFiles
 
+    Inherits the FilterView class and uses the SingleTableMixin for viewing the django-tables2 table and
+    uses the ExportMixin so that the table can be exported as a csv file
+    """
+    table_class = TrackTasksTable
+    model = TrackTasks
+    template_name = 'gfiles/tracktask_summary.html'
+    filterset_class = TrackTasksFilter
+
+
+class TrackTasksProgressView(LoginRequiredMixin, View):
+    """
+    """
+    def get(self, request, *args, **kwargs):
+
+        tt = TrackTasks.objects.get(pk=self.kwargs['pk'])
+
+        request.session['result'] = tt.taskid
+
+        return render(request, 'gfiles/status.html', {'s': 0, 'progress': 0})
+
+
+
+def async_task_progress(id):
+    # https://blog.miguelgrinberg.com/post/using-celery-with-flask
     task = AsyncResult(id)
-    print(task)
 
     # Task has finished and information has been remove (i think)
     try:
@@ -82,6 +103,7 @@ def status_update(request):
         }
         return JsonResponse(response)
 
+    info = copy.deepcopy(task.info)  # incase things change or rabbit/redis deletes message
 
     if task.state == 'PENDING':
         print('pending')
@@ -96,13 +118,12 @@ def status_update(request):
         print('processing')
         response = {
             'state': task.state,
-            'current': task.info.get('current', 0),
-            'total': task.info.get('total', 1),
-            # 'status': task.info.get('status', '')
-            'status': 'processing'
+            'current': info['current'],
+            'total': info['total'],
+            'status': info['status'],
         }
-        if 'result' in task.info:
-            response['result'] = task.info['result']
+        # if 'result' in info:
+        #     response['result'] = info
     else:
         # something went wrong in the background job
         response = {
@@ -111,30 +132,27 @@ def status_update(request):
             'total': 0,
             'status': 'FAILURE (unknown)',
         }
+
+
+    if response['state']=='FAILURE-KNOWN':
+        response['state'] = 'FAILURE'
+
+
     if task.info:
         response['progress'] = (float(response['current']) / float(response['total'])) * 100.0
     else:
         response['progress'] = 0
 
-    return JsonResponse(response)
+    return response
 
-    #
-    # status = result.status
-    # status = result.state
-    #
-    # if status == 'FAILURE':
-    #     progress = 0
-    # elif status == 'SUCCESS':
-    #     progress = 100
-    # elif result.info:
-    #     progress = (float(result.info['current'])/float(result.info['total']))*100.0
-    # else:
-    #     progress = 0
-    #
-    # if 'extra_text' in result.keys():
-    #     extra_text = result['extra_text']
-    #
-    # return ({'status': status, 'progress':progress, 'info': str(result.info), 'state': result.state })
+def status_update(request):
+    """ Updates for tracking status of long processes via celery
+    """
+
+    id = request.session['result']
+    response = async_task_progress(id)
+
+    return JsonResponse(response)
 
 
 def index(request):
