@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^update/$', views.status_update, name='status_update'),
     url(r'^success/$', views.success, name='success'),
     url(r'^track_tasks/$', views.TrackTasksListView.as_view(), name='track_tasks'),
+    url(r'^delete_track_task/(?P<pk>[\w]+)/$', views.TrackTasksDeleteView.as_view(), name='delete_track_task'),
     url(r'^track_task_progress/(?P<pk>\d+)/$', views.TrackTasksProgressView.as_view(), name='track_task_progress'),
-
 ]
 

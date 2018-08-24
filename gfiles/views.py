@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.views.generic import CreateView
-from django.views.generic import ListView
+from django.views.generic import CreateView, DetailView, DeleteView, UpdateView, ListView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 import os
 import copy
+from django.contrib import messages
+from django.utils.safestring import mark_safe
 
 from django.http import JsonResponse
 from celery.result import AsyncResult
@@ -23,7 +24,7 @@ from gfiles.tables import GFileTableWithCheck, TrackTasksTable
 
 from django_tables2.export.views import ExportMixin
 from django.urls import reverse_lazy
-
+from celery.task.control import revoke
 
 class GFileCreateView(LoginRequiredMixin, CreateView):
     """ Class to create a save a generic file using the GenericFile model.
@@ -71,41 +72,78 @@ class TrackTasksListView(LoginRequiredMixin, SingleTableMixin, FilterView):
     template_name = 'gfiles/tracktask_summary.html'
     filterset_class = TrackTasksFilter
 
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return self.model.objects.none()
+        qs = self.model.objects.filter(user=self.request.user)
+        return qs
+
 
 class TrackTasksProgressView(LoginRequiredMixin, View):
     """
     """
     def get(self, request, *args, **kwargs):
 
-        tt = TrackTasks.objects.get(pk=self.kwargs['pk'])
 
-        request.session['result'] = tt.taskid
+        tt = TrackTasks.objects.filter(pk=self.kwargs['pk'])
+
+        if tt:
+            request.session['result'] = tt[0].taskid
 
         return render(request, 'gfiles/status.html', {'s': 0, 'progress': 0})
 
 
+class TrackTasksDeleteView(DeleteView):
+    model = TrackTasks
+    success_url = reverse_lazy('track_tasks')
+    template_name = 'gfiles/confirm_delete.html'
+
+    def post(self, request, *args, **kwargs):
+        tt = self.get_object()
+        revoke(tt.taskid, terminate=True)
+        return self.delete(request, *args, **kwargs)
 
 def async_task_progress(id):
     # https://blog.miguelgrinberg.com/post/using-celery-with-flask
-    task = AsyncResult(id)
 
-    # Task has finished and information has been remove (i think)
+    # Task has finished and information has been removed (i think)
     try:
-        print(task.state)
+        task = AsyncResult(id)
     except KeyError as e:
         print(e)
-        print(task.info)
-        response = {
-            'state': 'REMOVED',
-            'current': 0,
-            'total': 0,
-            'status': '',
-        }
+        # check if still have info in our database table regarding this task
+        tt = TrackTasks.objects.filter(taskid=id)
+        if tt:
+            response = {
+                'state': 'COMPLETED',
+                'current': 1,
+                'total': 1,
+                'status': 'Task {} has completed'.format(tt[0].name),
+            }
+        else:
+            response = {
+                'state': 'REMOVED',
+                'current': 1,
+                'total': 1,
+                'status': 'Task has been removed',
+            }
+
         return JsonResponse(response)
 
     info = copy.deepcopy(task.info)  # incase things change or rabbit/redis deletes message
+    if task.state == 'SUCCESS':
+        response = {
+            'state': task.state,
+            'current': 1,
+            'total': 1,
+            'status': info['status'] if info and 'status' in info else '',
+        }
+        tt = TrackTasks.objects.filter(taskid=id)
+        if tt and tt[0].result:
+            response['status'] = mark_safe('<p><a href="{}">View result</a></p>'.format(tt[0].result))
 
-    if task.state == 'PENDING':
+
+    elif task.state == 'PENDING':
         print('pending')
         # job did not start yet
         response = {
@@ -115,7 +153,7 @@ def async_task_progress(id):
             'status': 'Pending...'
         }
     elif task.state != 'FAILURE':
-        print('processing')
+
         response = {
             'state': task.state,
             'current': info['current'],
@@ -134,12 +172,23 @@ def async_task_progress(id):
         }
 
 
+
     if response['state']=='FAILURE-KNOWN':
         response['state'] = 'FAILURE'
 
+    if response['state'] == 'FAILURE':
+        tt = TrackTasks.objects.filter(taskid=id)
+        if tt:
+            tt[0].state = 'FAILURE'
+            tt[0].save()
 
-    if task.info:
-        response['progress'] = (float(response['current']) / float(response['total'])) * 100.0
+    if task.state == 'SUCCESS':
+        response['progress'] = 100
+    elif task.info:
+        if float(response['total']) == 0:
+            response['progress'] = 0
+        else:
+            response['progress'] = (float(response['current']) / float(response['total'])) * 100.0
     else:
         response['progress'] = 0
 
@@ -154,6 +203,21 @@ def status_update(request):
 
     return JsonResponse(response)
 
+# class DeleteMessages(LoginRequiredMixin, View):
+#     """
+#     """
+#     def get(self, request, *args, **kwargs):
+#
+#         messages = get_messages(request)
+#         for msg in messages:
+#             del msg
+#
+#         next = request.POST.get('next', '/')
+#         return HttpResponseRedirect(next)
+
+
+
+
 
 def index(request):
     """ basic index view
@@ -165,3 +229,9 @@ def success(request):
     """ basic success view
     """
     return render(request, 'gfiles/success.html')
+
+def handler404(request):
+    return render(request, 'gfiles/404.html', status=404)
+
+def handler500(request):
+    return render(request, 'gfiles/500.html', status=500)

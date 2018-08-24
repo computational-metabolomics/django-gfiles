@@ -39,11 +39,12 @@ class GFileTableWithCheck(GFileTable):
 
 class TrackTasksTable(ColumnShiftTable):
     progress = tables.LinkColumn('track_task_progress', text='progress', verbose_name='Monitor Progress', args=[A('pk')])
+    delete = tables.LinkColumn('delete_track_task', text='delete', verbose_name='Delete', args=[A('pk')])
     class Meta:
         model = TrackTasks
         template = 'django_tables2/bootstrap.html'
         attrs = {'class': 'paleblue'}
-        fields = ('id', 'user', 'taskid', 'status')
+        fields = ('id', 'user', 'name', 'taskid', 'state', 'result')
 
 
 

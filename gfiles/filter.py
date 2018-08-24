@@ -21,9 +21,9 @@ class TrackTasksFilter(django_filters.FilterSet):
     """ Class for filtering Tracked tasks
     """
     username = django_filters.CharFilter('user__username', lookup_expr='contains', label="Username")
-    track_id = django_filters.CharFilter('track_id', lookup_expr='contains', label="Username")
-    status = django_filters.CharFilter('status', lookup_expr='contains', label="status")
+    taskid = django_filters.CharFilter('taskid', lookup_expr='contains', label="taskid")
+    state = django_filters.CharFilter('state', lookup_expr='contains', label="status")
 
     class Meta:
         model = GenericFile
-        fields = ('username', 'track_id', 'status')
+        fields = ('username', 'taskid', 'state')

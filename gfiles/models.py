@@ -37,7 +37,12 @@ class TrackTasks(models.Model):
                              blank=True)
     taskid = models.CharField(max_length=500, null=False, blank=False)
 
-    status = models.CharField(max_length=500, null=True, blank=True)
+    state = models.CharField(max_length=500, null=True, blank=True)
+
+    name = models.CharField(max_length=500, null=True, blank=True)
+
+    result = models.URLField(null=True, blank=True)
 
     def __str__(self):  # __unicode__ on Python 2
-        return '{} {}'.format(self.user, taskid)
+        return '{}'.format(self.name)
+
