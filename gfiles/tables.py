@@ -13,9 +13,7 @@ class GFileTable(ColumnShiftTable):
 
     class Meta:
         model = GenericFile
-        attrs = {'class': 'paleblue'}
-        template = 'django_tables2/boostrap.html'
-
+        attrs = {"class": "table table-bordered table-striped table-condensed table-hover ", }
         fields = ('id', )
 
 
@@ -32,8 +30,7 @@ class GFileTableWithCheck(GFileTable):
 
     class Meta:
         model = GenericFile
-        template = 'django_tables2/bootstrap.html'
-        attrs = {'class': 'paleblue'}
+        attrs = {"class": "table table-bordered table-striped table-condensed table-hover", }
         fields = ('id', 'filename', 'user', 'check')
 
 
@@ -42,8 +39,7 @@ class TrackTasksTable(ColumnShiftTable):
     delete = tables.LinkColumn('delete_track_task', text='delete', verbose_name='Delete', args=[A('pk')])
     class Meta:
         model = TrackTasks
-        template = 'django_tables2/bootstrap.html'
-        attrs = {'class': 'paleblue'}
+        attrs = {"class": "table table-bordered table-striped table-condensed table-hover", }
         fields = ('id', 'user', 'name', 'taskid', 'state', 'result')
 
 
