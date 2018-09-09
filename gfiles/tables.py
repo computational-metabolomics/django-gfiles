@@ -3,6 +3,8 @@ from .models import GenericFile, TrackTasks
 from django_tables2_column_shifter.tables import ColumnShiftTable
 from django_tables2.utils import A
 
+TABLE_CLASS = "mogi table-bordered table-striped table-condensed table-hover"
+
 class GFileTable(ColumnShiftTable):
     """ Class for django-tables2 table of :class:`gfiles.models.GenericFiles`.
 
@@ -13,7 +15,7 @@ class GFileTable(ColumnShiftTable):
 
     class Meta:
         model = GenericFile
-        attrs = {"class": "table table-bordered table-striped table-condensed table-hover ", }
+        attrs = {"class": TABLE_CLASS}
         fields = ('id', )
 
 
@@ -39,7 +41,7 @@ class TrackTasksTable(ColumnShiftTable):
     delete = tables.LinkColumn('delete_track_task', text='delete', verbose_name='Delete', args=[A('pk')])
     class Meta:
         model = TrackTasks
-        attrs = {"class": "table table-bordered table-striped table-condensed table-hover", }
+        attrs = {"class": TABLE_CLASS}
         fields = ('id', 'user', 'name', 'taskid', 'state', 'result')
 
 
