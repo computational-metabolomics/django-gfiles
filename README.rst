@@ -1,6 +1,6 @@
-=====
+===============
 django-gfiles
-=====
+===============
 
 |Build Status (Travis)| |Py versions|
 
