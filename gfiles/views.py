@@ -73,7 +73,7 @@ class TrackTasksListView(LoginRequiredMixin, SingleTableMixin, FilterView):
     filterset_class = TrackTasksFilter
 
     def get_queryset(self):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return self.model.objects.none()
         qs = self.model.objects.filter(user=self.request.user)
         return qs
@@ -230,7 +230,7 @@ def success(request):
     """
     return render(request, 'gfiles/success.html')
 
-def handler404(request):
+def handler404(request, exception):
     return render(request, 'gfiles/404.html', status=404)
 
 def handler500(request):
