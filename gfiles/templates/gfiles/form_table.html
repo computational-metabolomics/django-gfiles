@@ -1,7 +1,3 @@
-
-
-
-
 <table class="table table-hover" id="form_table">
     {% csrf_token %}
     {{ form.media }}
@@ -15,9 +11,10 @@
     <tbody>
         {% for field in form %}
         <tr >
+            <label for="{{ field.auto_id }}" class="visuallyhidden">{{field.label}}: </label> 
             <td >{{ field.label }}</td>
             <td >{{ field }} <br> <em class="grayout"> {{ field.help_text }}</td>
-        </tr>
+         </tr>
         {% endfor %}
     </tbody>
 </table>

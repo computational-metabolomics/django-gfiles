@@ -10,6 +10,7 @@
         {% for form in forms %}
             {% for field in form %}
                 <tr>
+                    <label for="{{field.autoid}}" class="visuallyhidden">{{field.label}}: </label> 
                     <td>{{ field.label }}</td>
                     <td>{{ field }} <br> <em class="grayout"> <em>{{ field.help_text }}</em></td>
                 </tr>
