@@ -10,6 +10,7 @@ from django.utils.safestring import mark_safe
 
 from django.http import JsonResponse
 from celery.result import AsyncResult
+from celery import Celery
 
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin, MultiTableMixin
@@ -24,7 +25,8 @@ from gfiles.tables import GFileTableWithCheck, TrackTasksTable
 
 from django_tables2.export.views import ExportMixin
 from django.urls import reverse_lazy
-from celery.control import revoke
+
+app = Celery()
 
 class GFileCreateView(LoginRequiredMixin, CreateView):
     """ Class to create a save a generic file using the GenericFile model.
@@ -100,7 +102,7 @@ class TrackTasksDeleteView(DeleteView):
 
     def post(self, request, *args, **kwargs):
         tt = self.get_object()
-        revoke(tt.taskid, terminate=True)
+        app.control.revoke(tt.taskid, terminate=True)
         return self.delete(request, *args, **kwargs)
 
 def async_task_progress(id):
