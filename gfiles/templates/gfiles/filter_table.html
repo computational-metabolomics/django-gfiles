@@ -11,7 +11,7 @@
         <tbody>
             {% for field in filter.form %}
                 <tr>
-                    <label for="{{ field.auto_id }}" class="visuallyhidden">{{field.label}}: </label>
+                    <label for="{{ field.auto_id }}" style="opacity: 0">{{field.label}}: </label>
                     <td>{{ field.label }}</td>
                     <td>{{ field }}</td>
                 </tr>

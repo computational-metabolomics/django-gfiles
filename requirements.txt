@@ -8,4 +8,5 @@ django_tables2
 django_bootstrap3
 django_tables2_column_shifter
 django_sb_admin
+django-allauth
 tablib

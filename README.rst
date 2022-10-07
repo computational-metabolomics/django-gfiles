@@ -2,9 +2,6 @@
 django-gfiles
 =====
 
-|Build Status (Travis)| |Py versions|
-
-
 Simple file management of generic files.
 
 Further documentation available on `ReadTheDocs <https://mogi.readthedocs.io/en/latest/>`__
