@@ -24,7 +24,7 @@ from gfiles.tables import GFileTableWithCheck, TrackTasksTable
 
 from django_tables2.export.views import ExportMixin
 from django.urls import reverse_lazy
-from celery.task.control import revoke
+from celery.control import revoke
 
 class GFileCreateView(LoginRequiredMixin, CreateView):
     """ Class to create a save a generic file using the GenericFile model.
