@@ -22,7 +22,10 @@ Quick start
         'bootstrap3',
         'django_tables2_column_shifter',
         'django_sb_admin',
-        'django_filter'
+        'django_filter',
+
+        'allauth',
+        'allauth.account',
     ]
 
 2. Include the polls URLconf in your project urls.py like this::
@@ -33,16 +36,8 @@ Quick start
 
 4. Start the development server and visit http://127.0.0.1:8000
 
-5. Register http://127.0.0.1:8000/register/ and login http://127.0.0.1:8000/login/
+5. Register http://127.0.0.1:8000/accounts/signup/ and login http://127.0.0.1:8000/accounts/login/
 
 6. Add files (need to be logged in) http://127.0.0.1:8000/upload_gfile/
 
 7. View and filter files http://127.0.0.1:8000/gfile_summary/
-
-
-
-.. |Build Status (Travis)| image:: https://travis-ci.com/computational-metabolomics/django-gfiles.svg?branch=master
-   :target: https://travis-ci.com/computational-metabolomics/django-gfiles/
-
-.. |Py versions| image:: https://img.shields.io/pypi/pyversions/django-gfiles.svg?style=flat&maxAge=3600
-   :target: https://pypi.python.org/pypi/django-gfiles/
