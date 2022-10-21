@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 
 from django.http import JsonResponse
 from celery.result import AsyncResult
-from celery import Celery
+
 
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin, MultiTableMixin
@@ -26,7 +26,7 @@ from gfiles.tables import GFileTableWithCheck, TrackTasksTable
 from django_tables2.export.views import ExportMixin
 from django.urls import reverse_lazy
 
-app = Celery()
+
 
 class GFileCreateView(LoginRequiredMixin, CreateView):
     """ Class to create a save a generic file using the GenericFile model.
@@ -86,7 +86,6 @@ class TrackTasksProgressView(LoginRequiredMixin, View):
     """
     def get(self, request, *args, **kwargs):
 
-
         tt = TrackTasks.objects.filter(pk=self.kwargs['pk'])
 
         if tt:
@@ -104,6 +103,7 @@ class TrackTasksDeleteView(DeleteView):
         tt = self.get_object()
         app.control.revoke(tt.taskid, terminate=True)
         return self.delete(request, *args, **kwargs)
+
 
 def async_task_progress(id):
     # https://blog.miguelgrinberg.com/post/using-celery-with-flask
@@ -133,6 +133,7 @@ def async_task_progress(id):
         return JsonResponse(response)
 
     info = copy.deepcopy(task.info)  # incase things change or rabbit/redis deletes message
+
     if task.state == 'SUCCESS':
         response = {
             'state': task.state,
@@ -143,7 +144,6 @@ def async_task_progress(id):
         tt = TrackTasks.objects.filter(taskid=id)
         if tt and tt[0].result:
             response['status'] = mark_safe('<p><a href="{}">View result</a></p>'.format(tt[0].result))
-
 
     elif task.state == 'PENDING':
         print('pending')
