@@ -4,6 +4,8 @@ from django.views.generic import CreateView, DetailView, DeleteView, UpdateView,
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 import os
+
+
 import copy
 from django.contrib import messages
 from django.utils.safestring import mark_safe
@@ -25,6 +27,14 @@ from gfiles.tables import GFileTableWithCheck, TrackTasksTable
 
 from django_tables2.export.views import ExportMixin
 from django.urls import reverse_lazy
+
+from celery import Celery
+from django.conf import settings
+
+# As we use this for a resuable app we need to recreate the celery app again as in some setups it can't be found
+app = Celery('')
+app.config_from_object('django.conf:settings', namespace='CELERY')
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 
 
@@ -110,7 +120,8 @@ def async_task_progress(id):
 
     # Task has finished and information has been removed (i think)
     try:
-        task = AsyncResult(id)
+        # task = AsyncResult(id)  # After celery >2 we need to state where the app is from if using a resuable application
+        task = AsyncResult(id, app=app)
     except KeyError as e:
         print(e)
         # check if still have info in our database table regarding this task

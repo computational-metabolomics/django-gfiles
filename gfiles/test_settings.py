@@ -57,7 +57,7 @@ STATICFILES_FINDERS = (
 )
 
 PROJECT_ROOT = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), ".."),
+    os.path.join(os.path.dirname(__file__), "../../../django-mogisite-dmadb-UPDATE/django"),
 )
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
