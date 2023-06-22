@@ -1,5 +1,5 @@
 django>=2.2,<4
-django-filter>=21
+django-filter>=22
 django-sb-admin==0.3.7
 celery
 django_celery_results
