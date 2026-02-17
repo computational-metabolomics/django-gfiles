@@ -4,10 +4,16 @@ django-gfiles
 
 Simple file management of generic files.
 
-Further documentation available on `ReadTheDocs <https://mogi.readthedocs.io/en/latest/>`__
+Used to create `DMAdb <https://mogi.readthedocs.io/en/latest/>`__, see `ReadTheDocs (DMAdb) <https://dmadb.readthedocs.io/en/latest/getting-started.html>`__ for documentation.
 
+Previous documentation can be found at `ReadTheDocs (legacy) <https://mogi.readthedocs.io/en/latest/>`__.
 
+PyPI Archive Notice
+-------------------
 
+This package is no longer updated on PyPI.
+
+For current code and updates, use this `GitHub repository <https://github.com/computational-metabolomics/django-gfiles>`__.
 
 Quick start
 -----------

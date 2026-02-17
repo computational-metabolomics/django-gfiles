@@ -23,30 +23,21 @@
 
 {% block sb_admin_navbar_right %}
     <ul class="nav navbar-right top-nav">
-        <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu alert-dropdown">
-                        <li>
-                            <a href="#"> <span class="label label-default">Alert Badge</span></a>
-                        </li>
-                    </ul>
-        </li>
+        
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {% if user.username %}{{ user.username }}{% else %}Anonymous{% endif %} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                             {% if user.is_authenticated %}
                                 <li><a href="#"><i class="fa fa-fw fa-user"></i> Profile</a></li>
-                                <li><a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a></li>
-
-                                <li class="divider"></li>
+                                
                                 <li><a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                             {% else %}
-                                <li><a href="{% url 'account_signup' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                                 <li><a href="{% url 'account_login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                             {% endif %}
                     </ul>
                 </li>
-</ul>{% endblock sb_admin_navbar_right %}
+    </ul>
+{% endblock sb_admin_navbar_right %}
 
 
 {% block sb_admin_sidebar %}
